@@ -125,6 +125,44 @@ const Auth: React.FC = () => {
             {isLogin ? 'Login' : 'Register'}
           </Typography>
           <form className={classes.form} noValidate>
+            {!isLogin && (
+              <>
+                <TextField
+                  autoComplete="username"
+                  autoFocus
+                  fullWidth
+                  id="username"
+                  label="Username"
+                  margin="normal"
+                  name="username"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setUsername(e.target.value)
+                  }
+                  required
+                  value={username}
+                  variant="outlined"
+                />
+                <Box textAlign="center">
+                  <IconButton>
+                    <label>
+                      <AccountCircleIcon
+                        fontSize="large"
+                        className={
+                          avatarImage
+                            ? styles.login_addIconLoaded
+                            : styles.login_addIcon
+                        }
+                      />
+                      <input
+                        className={styles.login_hiddenIcon}
+                        type="file"
+                        onChange={onChangeImageHandler}
+                      />
+                    </label>
+                  </IconButton>
+                </Box>
+              </>
+            )}
             <TextField
               autoComplete="email"
               autoFocus
@@ -159,6 +197,11 @@ const Auth: React.FC = () => {
             <Button
               className={classes.submit}
               color="primary"
+              disabled={
+                isLogin
+                  ? !email || password.length < 6
+                  : !username || !email || password.length < 6 || !avatarImage
+              }
               fullWidth
               onClick={
                 isLogin
